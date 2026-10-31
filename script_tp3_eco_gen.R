@@ -3,7 +3,7 @@
 # ECL 1003 – ÉCOLOGIE GÉNÉRALE
 # TP3 : EFFET DE L’INTENSITÉ LUMINEUSE SUR LA CROISSANCE DES VÉGÉTAUX
 # Github: 
-# ...      
+# https://github.com/AnthonyCarmichael/ECL-1003-ECOLOGIE-GENERALE-TP3      
 ##########################################################################
 
 library(readxl)
