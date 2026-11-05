@@ -30,15 +30,14 @@ figure1 <- clean_don |> ggplot(aes(x=LOGexposition_percent,y=LOGhauteur_max_cm))
     x = "Logarithme de l'intensité lumineuse (%)",
     y = "Logarithme de la hauteur maximale de l'arbre (cm)"
   ) + 
-  theme_bw() +
-  geom_smooth(method = "lm", se=FALSE)
+  theme_bw()
 figure1
-ggsave('./output/figure1.png',width = 6, height=5)
+#ggsave('./output/figure1.png',width = 6, height=5)
+ggsave('./output/figure1.pdf')
 
 # Linear Models donne p-value: 0.3478 donc aucune preuve de relation significative
 modele <- lm(LOGhauteur_max_cm ~ LOGexposition_percent, data = clean_don)
 summary(modele)
-
 
 # Question 2 
 # Est-ce que la longueur totale de l’arbre (LHM) est une co-variable importante
@@ -52,7 +51,13 @@ figure2 <- clean_don |> ggplot(aes(x=LOGhauteur_max_cm,y=LOGnb_feuille)) +
     y = "Logarithme du nombre de feuilles"
   )
 figure2
+modele2 <- lm(LOGhauteur_max_cm ~ LOGexposition_percent, data = clean_don)
+summary(modele)
 ggsave('./output/figure2.png',width = 6, height=5)
+
+# Linear Models donne p-value: 1.956e-06 donc preuve de relation très forte significative
+modele2 <- lm(LOGnb_feuille ~ LOGhauteur_max_cm, data = clean_don)
+summary(modele2)
 
 
 figure3 <- clean_don |> ggplot(aes(x=LOGhauteur_max_cm,y=LOGsurface_foliaire_totale_cm2)) +
@@ -65,6 +70,9 @@ figure3 <- clean_don |> ggplot(aes(x=LOGhauteur_max_cm,y=LOGsurface_foliaire_tot
 figure3
 ggsave('./output/figure3.png',width = 6, height=5)
 
+# Linear Models donne p-value: 0.001095 donc preuve de forte relation significative
+modele3 <- lm(LOGsurface_foliaire_totale_cm2 ~ LOGhauteur_max_cm, data = clean_don)
+summary(modele3)
 
 figure4 <- clean_don |> ggplot(aes(x=LOGhauteur_max_cm,y=LOGhauteur_1_branche_cm)) +
   geom_point() +
@@ -77,6 +85,9 @@ figure4 <- clean_don |> ggplot(aes(x=LOGhauteur_max_cm,y=LOGhauteur_1_branche_cm
 figure4
 ggsave('./output/figure4.png',width = 6, height=5)
 
+# Linear Models donne p-value: 0.2673 donc absence de preuve de relation significative
+modele4 <- lm(LOGhauteur_1_branche_cm ~ LOGhauteur_max_cm, data = clean_don)
+summary(modele4)
 
 figure5 <- clean_don |> ggplot(aes(x=LOGhauteur_max_cm,y=LOGnb_branche_primaire)) +
   geom_point() +
@@ -88,6 +99,9 @@ figure5 <- clean_don |> ggplot(aes(x=LOGhauteur_max_cm,y=LOGnb_branche_primaire)
 figure5
 ggsave('./output/figure5.png',width = 6, height=5)
 
+# Linear Models donne p-value: 0.0228 donc preuve de relation moyenne significative
+modele5 <- lm(LOGnb_branche_primaire ~ LOGhauteur_max_cm, data = clean_don)
+summary(modele5)
 
 figure6 <- clean_don |> ggplot(aes(x=LOGhauteur_max_cm,y=LOGdiametre_tronc_cm)) +
   geom_point() +
@@ -100,6 +114,9 @@ figure6 <- clean_don |> ggplot(aes(x=LOGhauteur_max_cm,y=LOGdiametre_tronc_cm)) 
 figure6
 ggsave('./output/figure6.png',width = 6, height=5)
 
+# Linear Models donne p-value: 0.03403 donc preuve de relation moyennement significative
+modele6 <- lm(LOGdiametre_tronc_cm ~ LOGhauteur_max_cm, data = clean_don)
+summary(modele6)
 
 # Condenser toutes les figueres en une
 figure_all <- ggplot(clean_don, aes(x = LOGhauteur_max_cm)) +
@@ -121,4 +138,5 @@ figure_all <- ggplot(clean_don, aes(x = LOGhauteur_max_cm)) +
   theme_bw()
 
 figure_all
-ggsave('./output/figure_all.png',width = 6, height=5)
+#ggsave('./output/figure_all.png',width = 6, height=5)
+ggsave('./output/figure_all.pdf')
