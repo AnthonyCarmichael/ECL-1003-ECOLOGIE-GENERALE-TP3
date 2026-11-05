@@ -2,6 +2,7 @@
 # Auteur : Anthony Carmichael
 # ECL 1003 – ÉCOLOGIE GÉNÉRALE
 # TP3 : EFFET DE L’INTENSITÉ LUMINEUSE SUR LA CROISSANCE DES VÉGÉTAUX
+# R version 4.6.1
 # Github: 
 # https://github.com/AnthonyCarmichael/ECL-1003-ECOLOGIE-GENERALE-TP3      
 ##########################################################################
@@ -32,8 +33,8 @@ figure1 <- clean_don |> ggplot(aes(x=LOGexposition_percent,y=LOGhauteur_max_cm))
   ) + 
   theme_bw()
 figure1
-#ggsave('./output/figure1.png',width = 6, height=5)
-ggsave('./output/figure1.pdf')
+ggsave('./output/figure1.png',width = 6, height=5)
+#ggsave('./output/figure1.pdf')
 
 # Linear Models donne p-value: 0.3478 donc aucune preuve de relation significative
 modele <- lm(LOGhauteur_max_cm ~ LOGexposition_percent, data = clean_don)
@@ -138,5 +139,5 @@ figure_all <- ggplot(clean_don, aes(x = LOGhauteur_max_cm)) +
   theme_bw()
 
 figure_all
-#ggsave('./output/figure_all.png',width = 6, height=5)
-ggsave('./output/figure_all.pdf')
+ggsave('./output/figure_all.png',width = 6, height=5)
+#ggsave('./output/figure_all.pdf')
