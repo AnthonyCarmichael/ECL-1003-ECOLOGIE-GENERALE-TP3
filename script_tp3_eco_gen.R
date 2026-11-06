@@ -28,8 +28,8 @@ colnames(don)
 figure1 <- clean_don |> ggplot(aes(x=LOGexposition_percent,y=LOGhauteur_max_cm)) +
   geom_point() +
   labs(
-    x = "Logarithme de l'intensité lumineuse (%)",
-    y = "Logarithme de la hauteur maximale de l'arbre (cm)"
+    x = "Log10 de l'intensité lumineuse (%)",
+    y = "Log10 de la hauteur maximale de l'arbre (cm)"
   ) + 
   theme_bw()
 figure1
@@ -59,7 +59,10 @@ ggsave('./output/figure2.png',width = 6, height=5)
 # Linear Models donne p-value: 1.956e-06 donc preuve de relation très forte significative
 modele2 <- lm(LOGnb_feuille ~ LOGhauteur_max_cm, data = clean_don)
 summary(modele2)
-
+# var log feuille selon log hauteur
+# R-squared:  0.4619
+# p-value: 1.956e-06 ou 0,000001956
+# Donc lien statistique fort, mais régression linéaire impacter par d'autre facteurs
 
 figure3 <- clean_don |> ggplot(aes(x=LOGhauteur_max_cm,y=LOGsurface_foliaire_totale_cm2)) +
   geom_point() +
@@ -141,3 +144,31 @@ figure_all <- ggplot(clean_don, aes(x = LOGhauteur_max_cm)) +
 figure_all
 ggsave('./output/figure_all.png',width = 6, height=5)
 #ggsave('./output/figure_all.pdf')
+
+
+# graphique optimisé
+long_don <- pivot_longer(clean_don,
+                         cols = c(LOGnb_feuille, LOGsurface_foliaire_totale_cm2, LOGhauteur_1_branche_cm, LOGnb_branche_primaire,LOGdiametre_tronc_cm),
+                         names_to = "variable", values_to = "y")
+
+graph_morpho <- ggplot(long_don, aes(x = LOGhauteur_max_cm, y = y)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  facet_wrap(~ variable,
+             scales = "free_y",
+             labeller = labeller(variable = c(
+               LOGnb_feuille = "d) Nombre de feuilles",
+               LOGsurface_foliaire_totale_cm2 = "e) Surface foliaire totale (cm²)",
+               LOGhauteur_1_branche_cm = "b) Hauteur de la 1re branche (cm)",
+               LOGnb_branche_primaire = "c) Nombre de branches primaires",
+               LOGdiametre_tronc_cm = "a) Diamètre du tronc (cm)"
+             ))) +
+  theme_bw() +
+  labs(
+    x = "Log10 de la hauteur maximale de l'arbre cm (x)",
+    y = "Log10 de la variable morphométrique (y)"
+  )
+
+ggsave('./output/graph_morpho.png',width = 7, height=5)
+
+
